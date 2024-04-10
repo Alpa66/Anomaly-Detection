@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.data import Dataset
+import pandas as pd
 
 
 # Graph Convolutional Layer:
@@ -24,7 +26,7 @@ class Graph_ReLu_W(nn.Module):
         super(Graph_ReLu_W, self).__init__()
         self.num_nodes = num_nodes
         self.k = k
-        
+        self.device = device
         self.A = nn.Parameter(torch.randn(num_nodes, num_nodes).to(device), requires_grad=True).to(device)
 
     def forward(self, idx):
@@ -130,3 +132,18 @@ class Graph_Undirected_A(nn.Module):
             adj = adj*mask
         
         return adj
+
+
+class SWat_dataset(Dataset):
+    def __init__(self, dataframe: pd.DataFrame, target: pd.DataFrame,  window_size, device):
+        self.data = dataframe
+        self.window_size = window_size
+        self.device = device
+
+    def __len__(self):
+        return len(self.data) - self.window_size
+
+    def __getitem__(self, idx):
+        window = self.data[idx: idx + self.window_size]
+        features = torch.tensor(window.iloc[:,:].values).float().to(self.device)
+        return features
