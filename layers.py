@@ -31,7 +31,7 @@ class Graph_ReLu_W(nn.Module):
 
     def forward(self, idx):
         
-        adj = F.relu(self.A)
+        adj = F.leaky_relu(self.A, negative_slope=0.2)
         
         if self.k:
             mask = torch.zeros(idx.size(0), idx.size(0)).to(self.device)
@@ -62,7 +62,7 @@ class Graph_Directed_A(nn.Module):
         
         m1 = torch.tanh(self.alpha*self.l1(self.e1(idx)))
         m2 = torch.tanh(self.alpha*self.l2(self.e2(idx)))
-        adj = F.relu(torch.tanh(self.alpha*torch.mm(m1, m2.transpose(1,0))))
+        adj = F.leaky_relu(torch.tanh(self.alpha*torch.mm(m1, m2.transpose(1,0))), 0.1)
         
         if self.k:
             mask = torch.zeros(idx.size(0), idx.size(0)).to(self.device)
