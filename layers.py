@@ -1,9 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
+from sklearn.metrics import confusion_matrix, f1_score, roc_curve, roc_auc_score, precision_score, recall_score
+from torch.utils.data import Dataset
 
 # Graph Convolutional Layer:
 class GCNLayer(nn.Module):
@@ -62,7 +65,7 @@ class Graph_Directed_A(nn.Module):
         
         m1 = torch.tanh(self.alpha*self.l1(self.e1(idx)))
         m2 = torch.tanh(self.alpha*self.l2(self.e2(idx)))
-        adj = F.leaky_relu(torch.tanh(self.alpha*torch.mm(m1, m2.transpose(1,0))), 0.1)
+        adj = F.leaky_relu(torch.tanh(self.alpha*torch.mm(m1, m2.transpose(1,0))), 0.2)
         
         if self.k:
             mask = torch.zeros(idx.size(0), idx.size(0)).to(self.device)
@@ -147,3 +150,34 @@ class SWat_dataset(Dataset):
         window = self.data[idx: idx + self.window_size]
         features = torch.tensor(window.iloc[:,:].values).float().to(self.device)
         return features
+
+
+def ROC(y_test,y_pred):
+    fpr,tpr,tr=roc_curve(y_test,y_pred)
+    auc=roc_auc_score(y_test,y_pred)
+    idx=np.argwhere(np.diff(np.sign(tpr-(1-fpr)))).flatten()
+
+    plt.xlabel("FPR")
+    plt.ylabel("TPR")
+    plt.plot(fpr,tpr,label="AUC="+str(auc))
+    plt.plot(fpr,1-fpr,'r:')
+    plt.plot(fpr[idx],tpr[idx], 'ro')
+    plt.legend(loc=4)
+    plt.grid()
+    plt.show()
+    return tr[idx]
+
+class SWat_dataset_window_last(Dataset):
+    def __init__(self, dataframe: pd.DataFrame, target: pd.DataFrame,  window_size, device):
+        self.data = dataframe
+        self.window_size = window_size
+        self.device = device
+        self.num_sensor = dataframe.shape[1]
+
+    def __len__(self):
+        return len(self.data) - self.window_size
+
+    def __getitem__(self, idx):
+        window = self.data[idx: idx + self.window_size]
+        features = torch.tensor(window.iloc[:,:].values).float().to(self.device)
+        return torch.transpose(features, 0, 1)
