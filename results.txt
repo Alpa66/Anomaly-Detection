@@ -11,3 +11,18 @@ Model architecture:
 Graph convolution layer: Graph_Directed_A, (with alpha = 0,2)
 layers: Grpahlayers "GCNLayer" (window_size = 100, 12) ==> (12, 4)
         Linear layers (204, 400) (400, 800) (800, num_nodes*window_size) (num_nodes=51)
+
+Notebook name: try_6.ipynb
+
+Seed_number             ||          F1_score
+439                     ||          79.53
+17                      ||          77.5
+1043                    ||          77.8
+
+
+
+Graph convolution layer: Graph_Directed_A, (with alpha = 0,2)
+layers: Grpahlayers "GCNLayer" (window_size = 16, 8) ==> (8, 4)
+        Linear layers (204, 408) (408, num_nodes*window_size) (num_nodes=51)
+
+Notebook name: Experiment_6_single_VGAE-Copy4.ipynb
