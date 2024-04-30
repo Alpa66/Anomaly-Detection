@@ -1,3 +1,4 @@
 index   Description                                                             ||      File_name                       ||  F1 score
 1       Graph_relu_w (Leaky_relu(0.2)) big model 33, 10: 510 1200, 2500         ||      GAE_77_Relu_50_epochs.pth       ||  77.8
-3       Medium model
+2       Directed_grpah (no leaky) 40, 17 (867, 1650) (2 layers)                 ||      GAE_77_Directed_200_epochs.pth  ||  77.1        Should try thresholding
+3

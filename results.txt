@@ -1,0 +1,13 @@
+Seed_number             ||          F1_score
+42                      ||          77.6
+11884                   ||          77.67
+730                     ||          77.8
+6493                    ||          78.4
+17                      ||          79.5
+470                     ||          78.35
+1043                    ||          77.26
+
+Model architecture:
+Graph convolution layer: Graph_Directed_A, (with alpha = 0,2)
+layers: Grpahlayers "GCNLayer" (window_size = 100, 12) ==> (12, 4)
+        Linear layers (204, 400) (400, 800) (800, num_nodes*window_size) (num_nodes=51)
