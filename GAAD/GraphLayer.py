@@ -36,14 +36,14 @@ class GraphLayer(MessagePassing):
 
         # Step 4-5: Start propagating messages.
         out = self.propagate(edge_index, x=x, norm=norm)
-
+        print(f'Out shape is: {out.shape}')
         # Step 6: Apply a final bias vector.
         out = out + self.bias
 
         return out
 
     def message(self, x_j, norm):
-        # x_j has shape [E, out_channels]
-
-        # Step 4: Normalize node features.
-        return norm.view(-1, 1) * x_j
+        print(f'X_j shape is: {x_j.shape}')
+        temp = norm.view(-1, 1) * x_j
+        print(f'temp shape is: {temp.shape}')
+        return temp
