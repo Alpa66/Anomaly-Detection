@@ -1,4 +1,5 @@
 Seed_number         ||          F1_score        ||      F1_score_Point_Adjust       ||      F1_score_Point_Adjust_20_percent    ||      Training_time (per epoch)   ||      Training_time (total)
+439                 ||          77              ||      83.1                        ||      82.58                               ||      36.85                       ||      737
 6493                ||          77              ||      83.34                       ||      82.56                               ||      37.35                       ||      747
 17                  ||          76.54           ||      83.1                        ||      82.1                                ||      36.6                        ||      732
 470                 ||          76.8            ||      83.26                       ||      82.4                                ||      35.75                       ||      715
@@ -7,4 +8,4 @@ Seed_number         ||          F1_score        ||      F1_score_Point_Adjust   
 
 Time is calculated in seconds
 
-The sum of model parameters is: 506550
+The sum of model parameters is: 760071
