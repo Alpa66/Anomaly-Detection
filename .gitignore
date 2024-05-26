@@ -1,2 +1,6 @@
 *.pth
-.ipynb_checkpoints
+**/.ipynb_checkpoints
+*.pyc
+__pycache__/
+.env
+node_modules/
